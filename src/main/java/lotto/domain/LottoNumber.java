@@ -1,5 +1,8 @@
 package lotto.domain;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public record LottoNumber(int value) implements Comparable<LottoNumber> {
 
     private static final int MINIMUM_VALUE = 1;
@@ -7,6 +10,12 @@ public record LottoNumber(int value) implements Comparable<LottoNumber> {
 
     public LottoNumber {
         validateRange(value);
+    }
+
+    public static List<LottoNumber> allNumbers() {
+        return IntStream.rangeClosed(MINIMUM_VALUE, MAXIMUM_VALUE)
+                .mapToObj(LottoNumber::new)
+                .toList();
     }
 
     private static void validateRange(int value) {
