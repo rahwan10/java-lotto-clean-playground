@@ -10,7 +10,9 @@ public class WinningLotto {
         this.winningLotto = new Lotto(winningNumbers);
     }
 
-    public int countMatchingNumbers(Lotto lotto) {
-        return winningLotto.countMatchingNumbers(lotto);
+    public Rank match(Lotto lotto) {
+        int matchCount = winningLotto.countMatchingNumbers(lotto);
+        return Rank.from(matchCount);
     }
+
 }
