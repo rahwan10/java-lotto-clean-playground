@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/** 유효한 로또 번호 중 6개를 무작위로 선택해 자동 로또를 발급한다. */
 public class LottoGenerator {
 
     /**
