@@ -30,6 +30,22 @@ class LottoTest {
                 .hasMessage("로또 번호는 중복될 수 없습니다.");
     }
 
+    @Test
+    void 다른_로또와_일치하는_번호_개수를_계산한다() {
+        Lotto lotto = new Lotto(numbers(1, 2, 3, 4, 5, 6));
+        Lotto otherLotto = new Lotto(numbers(1, 2, 3, 7, 8, 9));
+
+        assertThat(lotto.countMatchingNumbers(otherLotto).value()).isEqualTo(3);
+    }
+
+    @Test
+    void 다른_로또와_일치하는_번호가_없으면_0을_반환한다() {
+        Lotto lotto = new Lotto(numbers(1, 2, 3, 4, 5, 6));
+        Lotto otherLotto = new Lotto(numbers(7, 8, 9, 10, 11, 12));
+
+        assertThat(lotto.countMatchingNumbers(otherLotto).value()).isZero();
+    }
+
     private List<LottoNumber> numbers(int... values) {
         return java.util.Arrays.stream(values)
                 .mapToObj(LottoNumber::new)

@@ -53,4 +53,26 @@ public final class Lotto {
     public List<LottoNumber> numbers() {
         return numbers;
     }
+
+    /**
+     * 다른 로또 한 장과 비교해 같은 번호가 몇 개인지 계산한다.
+     *
+     * @param otherLotto 비교할 로또 한 장
+     * @return 두 로또에 공통으로 포함된 번호 개수
+     */
+    public MatchCount countMatchingNumbers(Lotto otherLotto) {
+        int matchingNumberCount = Math.toIntExact(
+                numbers.stream().filter(otherLotto::contains).count());
+        return new MatchCount(matchingNumberCount);
+    }
+
+    /**
+     * 전달받은 번호를 이 로또가 포함하는지 확인한다.
+     *
+     * @param lottoNumber 포함 여부를 확인할 로또 번호
+     * @return 이 로또에 같은 번호가 있으면 true, 없으면 false
+     */
+    private boolean contains(LottoNumber lottoNumber) {
+        return numbers.contains(lottoNumber);
+    }
 }
