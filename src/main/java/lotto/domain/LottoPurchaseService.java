@@ -23,9 +23,9 @@ public class LottoPurchaseService {
      * @param purchaseAmount 로또 구매 금액
      * @return 자동으로 발급된 여러 장의 로또
      */
-    public Lottos purchase(PurchaseAmount purchaseAmount) {
+    public LottoPurchase purchase(PurchaseAmount purchaseAmount) {
         List<Lotto> purchasedLottos = generateLottos(purchaseAmount);
-        return new Lottos(purchasedLottos);
+        return new LottoPurchase(purchaseAmount, new Lottos(purchasedLottos));
     }
 
     /**

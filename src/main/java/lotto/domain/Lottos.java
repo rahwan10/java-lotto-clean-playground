@@ -37,6 +37,16 @@ public final class Lottos {
     }
 
     /**
+     * 구매한 각 로또가 당첨 번호와 일치하는 번호 개수를 계산한다.
+     *
+     * @param winningLotto 지난 주 당첨 번호
+     * @return 구매한 로또 순서에 따른 일치 번호 개수 목록
+     */
+    public List<MatchCount> matchCounts(WinningLotto winningLotto) {
+        return lottos.stream().map(winningLotto::countMatchingNumbers).toList();
+    }
+
+    /**
      * 구매한 로또가 한 장 이상인지 확인한다.
      *
      * @param lottos 확인할 로또 목록
