@@ -11,7 +11,6 @@ public class OutputView {
 
     private static final List<Rank> PRINT_ORDER = List.of(
             Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
-    public static Object printWinningResult;
 
     private OutputView() {
     }
