@@ -16,4 +16,11 @@ public class Lottos {
     public int size() {
         return this.lottos.size();
     }
+
+    public WinningResult match(WinningLotto winningLotto) {
+        List<Rank> ranks = lottos.stream()
+                .map(winningLotto::match)
+                .toList();
+        return new WinningResult(ranks);
+    }
 }
