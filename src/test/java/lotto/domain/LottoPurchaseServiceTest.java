@@ -12,9 +12,9 @@ class LottoPurchaseServiceTest {
         CountingLottoGenerator lottoGenerator = new CountingLottoGenerator();
         LottoPurchaseService lottoPurchaseService = new LottoPurchaseService(lottoGenerator);
 
-        LottoPurchase lottoPurchase = lottoPurchaseService.purchase(new PurchaseAmount(14_000));
+        Lottos lottos = lottoPurchaseService.purchase(new PurchaseAmount(14_000));
 
-        assertThat(lottoPurchase.lottos().size()).isEqualTo(14);
+        assertThat(lottos.size()).isEqualTo(14);
         assertThat(lottoGenerator.generateCount()).isEqualTo(14);
     }
 

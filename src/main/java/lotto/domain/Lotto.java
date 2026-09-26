@@ -60,10 +60,10 @@ public final class Lotto {
      * @param otherLotto 비교할 로또 한 장
      * @return 두 로또에 공통으로 포함된 번호 개수
      */
-    public MatchCount countMatchingNumbers(Lotto otherLotto) {
+    public int countMatchingNumbers(Lotto otherLotto) {
         int matchingNumberCount = Math.toIntExact(
                 numbers.stream().filter(otherLotto::contains).count());
-        return new MatchCount(matchingNumberCount);
+        return matchingNumberCount;
     }
 
     /**

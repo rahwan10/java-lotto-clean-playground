@@ -11,23 +11,36 @@ class LottoStatisticsTest {
 
     @Test
     void 일치_개수에_따라_당첨_통계와_수익률을_계산한다() {
-        LottoStatistics lottoStatistics = new LottoStatistics(
-                List.of(new MatchCount(3), new MatchCount(3), new MatchCount(4)),
-                new PurchaseAmount(14_000));
+        LottoStatistics lottoStatistics = lottos(1, 2, 3, 4, 5, 6)
+                .calculateStatistics(winningLotto(1, 2, 3, 7, 8, 9), new PurchaseAmount(1_000));
 
-        assertThat(lottoStatistics.winningResults())
-                .extracting(WinningResult::winningCount)
-                .extracting(WinningCount::value)
-                .containsExactly(2, 1, 0, 0);
-        assertThat(lottoStatistics.profitRate().value()).isEqualByComparingTo("4.28");
+        assertThat(lottoStatistics.winningCount(LottoRank.THREE_MATCH)).isEqualTo(1);
+        assertThat(lottoStatistics.winningCount(LottoRank.FOUR_MATCH)).isZero();
+        assertThat(lottoStatistics.profitRate()).isEqualByComparingTo("5.00");
     }
 
     @Test
     void 수익률은_소수점_둘째_자리까지_버린다() {
-        List<MatchCount> matchCounts = new ArrayList<>(Collections.nCopies(13, new MatchCount(0)));
-        matchCounts.add(new MatchCount(3));
-        LottoStatistics lottoStatistics = new LottoStatistics(matchCounts, new PurchaseAmount(14_000));
+        List<Lotto> purchasedLottos = new ArrayList<>(Collections.nCopies(13, lotto(7, 8, 9, 10, 11, 12)));
+        purchasedLottos.add(lotto(1, 2, 3, 7, 8, 9));
+        Lottos lottos = new Lottos(purchasedLottos);
+        LottoStatistics lottoStatistics = lottos.calculateStatistics(
+                winningLotto(1, 2, 3, 4, 5, 6), new PurchaseAmount(14_000));
 
-        assertThat(lottoStatistics.profitRate().value()).isEqualByComparingTo("0.35");
+        assertThat(lottoStatistics.profitRate()).isEqualByComparingTo("0.35");
+    }
+
+    private Lottos lottos(int... values) {
+        return new Lottos(List.of(lotto(values)));
+    }
+
+    private WinningLotto winningLotto(int... values) {
+        return new WinningLotto(lotto(values));
+    }
+
+    private Lotto lotto(int... values) {
+        return new Lotto(java.util.Arrays.stream(values)
+                .mapToObj(LottoNumber::new)
+                .toList());
     }
 }

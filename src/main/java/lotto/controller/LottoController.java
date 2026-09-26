@@ -1,7 +1,7 @@
 package lotto.controller;
 
 import lotto.domain.LottoPurchaseService;
-import lotto.domain.LottoPurchase;
+import lotto.domain.Lottos;
 import lotto.domain.LottoStatistics;
 import lotto.domain.PurchaseAmount;
 import lotto.domain.WinningLotto;
@@ -13,8 +13,7 @@ public class LottoController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final PurchaseAmountParser purchaseAmountParser;
-    private final WinningLottoParser winningLottoParser;
+    private final InputParser inputParser;
     private final LottoPurchaseService lottoPurchaseService;
 
     /**
@@ -22,27 +21,29 @@ public class LottoController {
      *
      * @param inputView 콘솔 입력을 담당하는 객체
      * @param outputView 콘솔 출력을 담당하는 객체
-     * @param purchaseAmountParser 구매 금액 문자열 변환 객체
-     * @param winningLottoParser 당첨 번호 문자열 변환 객체
+     * @param inputParser 콘솔 입력 문자열 변환 객체
      * @param lottoPurchaseService 자동 로또 발급 객체
      */
     public LottoController(InputView inputView, OutputView outputView,
-                           PurchaseAmountParser purchaseAmountParser, WinningLottoParser winningLottoParser,
-                           LottoPurchaseService lottoPurchaseService) {
+                           InputParser inputParser, LottoPurchaseService lottoPurchaseService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.purchaseAmountParser = purchaseAmountParser;
-        this.winningLottoParser = winningLottoParser;
+        this.inputParser = inputParser;
         this.lottoPurchaseService = lottoPurchaseService;
     }
 
     /** 구매 금액 입력부터 당첨 통계 출력까지의 전체 흐름을 실행한다. */
     public void run() {
+        // 구매 금액을 입력받아 검증된 구매 금액 객체로 변환
         PurchaseAmount purchaseAmount = readPurchaseAmount();
-        LottoPurchase lottoPurchase = lottoPurchaseService.purchase(purchaseAmount);
-        outputView.printPurchaseResult(lottoPurchase);
+        // 구매 금액으로 로또를 발급
+        Lottos lottos = lottoPurchaseService.purchase(purchaseAmount);
+        outputView.printPurchaseResult(lottos);
+
+        // 당첨 번호를 입력받아 검증된 당첨 로또 객체로 변환
         WinningLotto winningLotto = readWinningLotto();
-        LottoStatistics lottoStatistics = lottoPurchase.calculateStatistics(winningLotto);
+        // 구매한 로또와 당첨 번호를 비교해 당첨 통계와 수익률을 계산하고 출력
+        LottoStatistics lottoStatistics = lottos.calculateStatistics(winningLotto, purchaseAmount);
         outputView.printLottoStatistics(lottoStatistics);
     }
 
@@ -53,7 +54,7 @@ public class LottoController {
      */
     private PurchaseAmount readPurchaseAmount() {
         String inputAmount = inputView.readPurchaseAmount();
-        return purchaseAmountParser.parse(inputAmount);
+        return inputParser.parsePurchaseAmount(inputAmount);
     }
 
     /**
@@ -63,6 +64,6 @@ public class LottoController {
      */
     private WinningLotto readWinningLotto() {
         String inputWinningNumbers = inputView.readWinningNumbers();
-        return winningLottoParser.parse(inputWinningNumbers);
+        return inputParser.parseWinningLotto(inputWinningNumbers);
     }
 }

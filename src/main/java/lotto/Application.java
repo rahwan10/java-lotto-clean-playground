@@ -1,8 +1,7 @@
 package lotto;
 
 import lotto.controller.LottoController;
-import lotto.controller.PurchaseAmountParser;
-import lotto.controller.WinningLottoParser;
+import lotto.controller.InputParser;
 import lotto.domain.LottoGenerator;
 import lotto.domain.LottoPurchaseService;
 import lotto.view.InputView;
@@ -31,8 +30,7 @@ public class Application {
         return new LottoController(
                 new InputView(),
                 new OutputView(),
-                new PurchaseAmountParser(),
-                new WinningLottoParser(),
+                new InputParser(),
                 lottoPurchaseService
         );
     }

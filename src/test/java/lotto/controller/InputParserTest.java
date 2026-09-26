@@ -8,19 +8,31 @@ import lotto.domain.Lotto;
 import lotto.domain.LottoNumber;
 import org.junit.jupiter.api.Test;
 
-class WinningLottoParserTest {
+class InputParserTest {
 
-    private final WinningLottoParser winningLottoParser = new WinningLottoParser();
+    private final InputParser inputParser = new InputParser();
+
+    @Test
+    void 구매_금액_문자열을_구매_금액_객체로_변환한다() {
+        assertThat(inputParser.parsePurchaseAmount("14000").lottoCount()).isEqualTo(14);
+    }
+
+    @Test
+    void 숫자가_아닌_구매_금액은_예외를_발생시킨다() {
+        assertThatThrownBy(() -> inputParser.parsePurchaseAmount("만원"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("구매 금액은 숫자여야 합니다.");
+    }
 
     @Test
     void 쉼표로_구분한_당첨_번호를_당첨_로또로_변환한다() {
-        assertThat(winningLottoParser.parse("1, 2, 3, 4, 5, 6")
-                .countMatchingNumbers(lotto()).value()).isEqualTo(6);
+        assertThat(inputParser.parseWinningLotto("1, 2, 3, 4, 5, 6")
+                .countMatchingNumbers(lotto())).isEqualTo(6);
     }
 
     @Test
     void 숫자가_아닌_당첨_번호는_예외를_발생시킨다() {
-        assertThatThrownBy(() -> winningLottoParser.parse("1, 2, 3, 4, 5, six"))
+        assertThatThrownBy(() -> inputParser.parseWinningLotto("1, 2, 3, 4, 5, six"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("당첨 번호는 숫자여야 합니다.");
     }

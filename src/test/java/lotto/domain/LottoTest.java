@@ -35,7 +35,7 @@ class LottoTest {
         Lotto lotto = new Lotto(numbers(1, 2, 3, 4, 5, 6));
         Lotto otherLotto = new Lotto(numbers(1, 2, 3, 7, 8, 9));
 
-        assertThat(lotto.countMatchingNumbers(otherLotto).value()).isEqualTo(3);
+        assertThat(lotto.countMatchingNumbers(otherLotto)).isEqualTo(3);
     }
 
     @Test
@@ -43,7 +43,7 @@ class LottoTest {
         Lotto lotto = new Lotto(numbers(1, 2, 3, 4, 5, 6));
         Lotto otherLotto = new Lotto(numbers(7, 8, 9, 10, 11, 12));
 
-        assertThat(lotto.countMatchingNumbers(otherLotto).value()).isZero();
+        assertThat(lotto.countMatchingNumbers(otherLotto)).isZero();
     }
 
     private List<LottoNumber> numbers(int... values) {

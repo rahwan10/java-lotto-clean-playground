@@ -20,7 +20,7 @@ public final class WinningLotto {
      * @param purchasedLotto 비교할 구매 로또
      * @return 당첨 번호와 일치한 번호 개수
      */
-    public MatchCount countMatchingNumbers(Lotto purchasedLotto) {
+    public int countMatchingNumbers(Lotto purchasedLotto) {
         return purchasedLotto.countMatchingNumbers(lotto);
     }
 }

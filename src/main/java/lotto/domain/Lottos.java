@@ -37,13 +37,15 @@ public final class Lottos {
     }
 
     /**
-     * 구매한 각 로또가 당첨 번호와 일치하는 번호 개수를 계산한다.
+     * 구매한 로또와 당첨 번호를 비교해 당첨 통계와 수익률을 계산한다.
      *
      * @param winningLotto 지난 주 당첨 번호
-     * @return 구매한 로또 순서에 따른 일치 번호 개수 목록
+     * @param purchaseAmount 로또 구매 금액
+     * @return 당첨 규칙별 당첨 장수와 수익률을 가진 통계
      */
-    public List<MatchCount> matchCounts(WinningLotto winningLotto) {
-        return lottos.stream().map(winningLotto::countMatchingNumbers).toList();
+    public LottoStatistics calculateStatistics(WinningLotto winningLotto, PurchaseAmount purchaseAmount) {
+        List<Integer> matchCounts = lottos.stream().map(winningLotto::countMatchingNumbers).toList();
+        return new LottoStatistics(matchCounts, purchaseAmount);
     }
 
     /**

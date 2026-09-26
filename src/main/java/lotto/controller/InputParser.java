@@ -4,20 +4,25 @@ import java.util.List;
 import java.util.regex.Pattern;
 import lotto.domain.Lotto;
 import lotto.domain.LottoNumber;
+import lotto.domain.PurchaseAmount;
 import lotto.domain.WinningLotto;
 
-/** 쉼표로 구분한 당첨 번호 문자열을 WinningLotto로 변환한다. */
-public class WinningLottoParser {
+/** 콘솔에서 받은 구매 금액과 당첨 번호 문자열을 도메인 객체로 변환한다. */
+public class InputParser {
 
     private static final Pattern COMMA = Pattern.compile(",");
 
-    /**
-     * 당첨 번호 문자열을 검증된 당첨 로또 객체로 변환한다.
-     *
-     * @param inputWinningNumbers 사용자가 입력한 쉼표 구분 당첨 번호 문자열
-     * @return 번호 6개로 구성된 당첨 로또
-     */
-    public WinningLotto parse(String inputWinningNumbers) {
+    /** 구매 금액 문자열을 검증된 구매 금액 객체로 변환한다. */
+    public PurchaseAmount parsePurchaseAmount(String inputAmount) {
+        try {
+            return new PurchaseAmount(Integer.parseInt(inputAmount));
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("구매 금액은 숫자여야 합니다.");
+        }
+    }
+
+    /** 쉼표로 구분한 당첨 번호 문자열을 검증된 당첨 로또 객체로 변환한다. */
+    public WinningLotto parseWinningLotto(String inputWinningNumbers) {
         return new WinningLotto(new Lotto(parseNumbers(inputWinningNumbers)));
     }
 
