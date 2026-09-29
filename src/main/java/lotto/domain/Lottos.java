@@ -9,10 +9,6 @@ public class Lottos {
         this.lottos = List.copyOf(lottos);
     }
 
-    public List<Lotto> getLottos() {
-        return this.lottos;
-    }
-
     public int size() {
         return this.lottos.size();
     }
@@ -22,5 +18,11 @@ public class Lottos {
                 .map(winningLotto::match)
                 .toList();
         return new WinningResult(ranks);
+    }
+
+    public List<List<Integer>> getLottoNumbers() {
+        return lottos.stream()
+                .map(Lotto::getNumbers)
+                .toList();
     }
 }
