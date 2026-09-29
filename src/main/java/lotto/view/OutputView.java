@@ -1,7 +1,5 @@
 package lotto.view;
 
-import lotto.domain.Lotto;
-import lotto.domain.Lottos;
 import lotto.domain.WinningResult;
 import lotto.domain.Rank;
 
@@ -16,14 +14,17 @@ public class OutputView {
     }
 
 
-    public static void printLottos(Lottos lottos) {
+    public static void printLottos(List<List<Integer>> lottoNumbers) {
         System.out.println();
-        System.out.println(lottos.size() + "개를 구매했습니다.");
-        lottos.getLottos().forEach(OutputView::printLotto);
+        System.out.println(lottoNumbers.size() + "개를 구매했습니다.");
+        lottoNumbers.forEach(OutputView::printLotto);
     }
 
-    private static void printLotto(Lotto lotto) {
-        System.out.println(lotto.getNumbers());
+    private static void printLotto(List<Integer> numbers) {
+        List<Integer> sortedNumbers = numbers.stream()
+                .sorted()
+                .toList();
+        System.out.println(sortedNumbers);
     }
 
     public static void printWinningResult(WinningResult winningResult) {
