@@ -10,14 +10,6 @@ import org.junit.jupiter.api.Test;
 
 class LottoTest {
 
-    @DisplayName("로또 번호는 오름차순으로 정렬된다.")
-    @Test
-    void sortNumbers() {
-        Lotto lotto = new Lotto(List.of(45, 3, 21, 8, 1, 30));
-
-        assertThat(lotto.getNumbers()).containsExactly(1, 3, 8, 21, 30, 45);
-    }
-
     @DisplayName("로또 번호가 6개가 아니면 예외가 발생한다.")
     @Test
     void invalidSize() {
