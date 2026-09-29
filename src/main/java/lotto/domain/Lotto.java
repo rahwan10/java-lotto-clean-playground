@@ -40,7 +40,7 @@ public class Lotto {
 
     public List<Integer> getNumbers() {
         return numbers.stream()
-                .map(LottoNumber::getNumber)
+                .map(LottoNumber::number)
                 .toList();
     }
 
@@ -50,7 +50,7 @@ public class Lotto {
                 .count();
     }
 
-    private boolean contains(LottoNumber lottoNumber) {
+    private boolean contains(   LottoNumber lottoNumber) {
         return numbers.contains(lottoNumber);
     }
 }
