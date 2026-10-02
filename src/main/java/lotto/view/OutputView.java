@@ -1,7 +1,5 @@
 package lotto.view;
 
-import lotto.domain.Lotto;
-import lotto.domain.Lottos;
 import lotto.domain.WinningResult;
 import lotto.domain.Rank;
 
@@ -10,34 +8,37 @@ import java.util.List;
 public class OutputView {
 
     private static final List<Rank> PRINT_ORDER = List.of(
-            Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
+            Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
 
-    private OutputView() {
-    }
-
-
-    public static void printLottos(Lottos lottos) {
+    public void printLottos(int manualCount, int autoCount, List<List<Integer>> lottoNumbers) {
         System.out.println();
-        System.out.println(lottos.size() + "개를 구매했습니다.");
-        lottos.getLottos().forEach(OutputView::printLotto);
+        System.out.println("수동으로 " + manualCount + "장, 자동으로 " + autoCount + "개를 구매했습니다.");
+        lottoNumbers.forEach(this::printLotto);
     }
 
-    private static void printLotto(Lotto lotto) {
-        System.out.println(lotto.getNumbers());
+    private void printLotto(List<Integer> numbers) {
+        List<Integer> sortedNumbers = numbers.stream()
+                .sorted()
+                .toList();
+        System.out.println(sortedNumbers);
     }
 
-    public static void printWinningResult(WinningResult winningResult) {
+    public void printWinningResult(WinningResult winningResult) {
         System.out.println();
         System.out.println("당첨 통계");
         System.out.println("---------");
         PRINT_ORDER.forEach(rank -> printRankResult(rank, winningResult.countOf(rank)));
     }
 
-    private static void printRankResult(Rank rank, int count) {
+    private void printRankResult(Rank rank, int count) {
+        if (rank == Rank.SECOND) {
+            System.out.println(rank.getMatchCount() + "개 일치, 보너스 볼 일치(" + rank.getPrize() + "원) - " + count + "개");
+            return;
+        }
         System.out.println(rank.getMatchCount() + "개 일치 (" + rank.getPrize() + "원)- " + count + "개");
     }
 
-    public static void printProfitRate(double profitRate) {
+    public void printProfitRate(double profitRate) {
         double truncatedProfitRate = Math.floor(profitRate * 100) / 100;
         System.out.println("총 수익률은 " + truncatedProfitRate + "입니다.");
     }

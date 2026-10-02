@@ -4,19 +4,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class WinningLottoTest {
 
-    private final WinningLotto winningLotto = new WinningLotto(List.of(1, 2, 3, 4, 5, 6));
+    private final WinningLotto winningLotto = new WinningLotto(List.of(1, 2, 3, 4, 5, 6), 7);
 
-    @DisplayName("번호 3개가 일치하면 4등이다.")
+    @DisplayName("번호 3개가 일치하면 5등이다.")
     @Test
-    void matchFourth() {
+    void matchFifth() {
         Lotto lotto = new Lotto(List.of(1, 2, 3, 7, 8, 9));
 
-        assertThat(winningLotto.match(lotto)).isEqualTo(Rank.FOURTH);
+        assertThat(winningLotto.match(lotto)).isEqualTo(Rank.FIFTH);
     }
 
     @DisplayName("번호 6개가 모두 일치하면 1등이다.")
@@ -38,7 +39,7 @@ class WinningLottoTest {
     @DisplayName("당첨 번호가 6개가 아니면 예외가 발생한다.")
     @Test
     void invalidWinningNumbers() {
-        assertThatThrownBy(() -> new WinningLotto(List.of(1, 2, 3, 4, 5)))
+        assertThatThrownBy(() -> new WinningLotto(List.of(1, 2, 3, 4, 5), 6))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

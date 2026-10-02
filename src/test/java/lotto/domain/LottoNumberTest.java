@@ -15,7 +15,7 @@ class LottoNumberTest {
     void createLottoNumber(int number) {
         LottoNumber lottoNumber = new LottoNumber(number);
 
-        assertThat(lottoNumber.getNumber()).isEqualTo(number);
+        assertThat(lottoNumber.number()).isEqualTo(number);
     }
 
     @DisplayName("번호가 1부터 45 사이가 아니면 예외가 발생한다.")
