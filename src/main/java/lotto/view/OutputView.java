@@ -10,9 +10,9 @@ public class OutputView {
     private static final List<Rank> PRINT_ORDER = List.of(
             Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
 
-    public void printLottos(List<List<Integer>> lottoNumbers) {
+    public void printLottos(int manualCount, int autoCount, List<List<Integer>> lottoNumbers) {
         System.out.println();
-        System.out.println(lottoNumbers.size() + "개를 구매했습니다.");
+        System.out.println("수동으로 " + manualCount + "장, 자동으로 " + autoCount + "개를 구매했습니다.");
         lottoNumbers.forEach(this::printLotto);
     }
 
