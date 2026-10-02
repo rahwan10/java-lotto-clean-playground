@@ -31,6 +31,13 @@ public record PurchaseAmount(int value) {
         return lottoCount() - manualLottoCount;
     }
 
+    /** 수동 구매 장수가 구매 가능 장수 범위 안에 있는지 검증한다. */
+    public void validateManualLottoCount(int manualLottoCount) {
+        if (manualLottoCount < 0 || manualLottoCount > lottoCount()) {
+            throw new IllegalArgumentException("수동 구매 수는 구매 가능한 로또 장수 이하여야 합니다.");
+        }
+    }
+
     /**
      * 구매 금액이 로또 한 장 가격 이상인지 확인한다.
      *
@@ -55,10 +62,4 @@ public record PurchaseAmount(int value) {
         }
     }
 
-    /** 수동 구매 장수가 음수가 아니고 구매 가능 장수를 넘지 않는지 확인한다. */
-    private void validateManualLottoCount(int manualLottoCount) {
-        if (manualLottoCount < 0 || manualLottoCount > lottoCount()) {
-            throw new IllegalArgumentException("수동 구매 수는 구매 가능한 로또 장수 이하여야 합니다.");
-        }
-    }
 }

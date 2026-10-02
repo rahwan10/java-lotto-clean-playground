@@ -1,7 +1,7 @@
 package lotto.controller;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 import lotto.domain.Lotto;
 import lotto.domain.LottoPurchase;
 import lotto.domain.LottoPurchaseService;
@@ -40,10 +40,7 @@ public class LottoController {
     public void run() {
         // 구매 금액을 입력받아 검증된 구매 금액 객체로 변환
         PurchaseAmount purchaseAmount = readPurchaseAmount();
-        int manualLottoCount = readManualLottoCount();
-        List<Lotto> manualLottos = readManualLottos(manualLottoCount);
-        // 수동 로또와 자동 로또를 합쳐 구매 결과를 생성
-        LottoPurchase lottoPurchase = lottoPurchaseService.purchase(purchaseAmount, manualLottos);
+        LottoPurchase lottoPurchase = purchaseLottos(purchaseAmount);
         outputView.printPurchaseResult(lottoPurchase);
 
         // 당첨 번호를 입력받아 검증된 당첨 로또 객체로 변환
@@ -63,17 +60,28 @@ public class LottoController {
         return inputParser.parsePurchaseAmount(inputAmount);
     }
 
-    /** 수동으로 구매할 로또 장수를 입력받아 정수로 변환한다. */
-    private int readManualLottoCount() {
+    /** 수동 구매 입력을 받아 수동·자동 로또를 합친 구매 결과를 생성한다. */
+    private LottoPurchase purchaseLottos(PurchaseAmount purchaseAmount) {
+        int manualLottoCount = readManualLottoCount(purchaseAmount);
+        List<Lotto> manualLottos = readManualLottos(manualLottoCount);
+        return lottoPurchaseService.purchase(purchaseAmount, manualLottos);
+    }
+
+    /** 수동 구매 수를 입력받고 구매 금액 범위 안에 있는지 검증한다. */
+    private int readManualLottoCount(PurchaseAmount purchaseAmount) {
         String inputManualLottoCount = inputView.readManualLottoCount();
-        return inputParser.parseManualLottoCount(inputManualLottoCount);
+        int manualLottoCount = inputParser.parseManualLottoCount(inputManualLottoCount);
+        purchaseAmount.validateManualLottoCount(manualLottoCount);
+        return manualLottoCount;
     }
 
     /** 수동 구매 장수만큼 로또 번호를 입력받아 로또 목록으로 변환한다. */
     private List<Lotto> readManualLottos(int manualLottoCount) {
-        return IntStream.range(0, manualLottoCount)
-                .mapToObj(count -> inputParser.parseManualLotto(inputView.readManualLottoNumbers()))
-                .toList();
+        List<Lotto> manualLottos = new ArrayList<>();
+        for (int count = 0; count < manualLottoCount; count++) {
+            manualLottos.add(inputParser.parseManualLotto(inputView.readManualLottoNumbers()));
+        }
+        return manualLottos;
     }
 
     /**

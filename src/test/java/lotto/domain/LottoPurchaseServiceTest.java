@@ -21,7 +21,7 @@ class LottoPurchaseServiceTest {
         assertThat(lottoGenerator.generateCount()).isEqualTo(13);
     }
 
-    private static class CountingLottoGenerator extends LottoGenerator {
+    private static class CountingLottoGenerator implements LottoGenerator {
 
         private int count;
 
