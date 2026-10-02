@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
 import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class WinningResultTest {
     @Test
     void calculateProfitRate() {
         WinningResult winningResult = new WinningResult(
-                List.of(Rank.FOURTH, Rank.MISS, Rank.MISS, Rank.MISS, Rank.MISS));
+                List.of(Rank.FIFTH, Rank.MISS, Rank.MISS, Rank.MISS, Rank.MISS));
 
         double profitRate = winningResult.calculateProfitRate(new PurchaseAmount(5000));
 
@@ -35,7 +36,7 @@ class WinningResultTest {
     @Test
     void calculateLossProfitRate() {
         WinningResult winningResult = new WinningResult(
-                List.of(Rank.FOURTH, Rank.MISS));
+                List.of(Rank.FIFTH, Rank.MISS));
 
         double profitRate = winningResult.calculateProfitRate(new PurchaseAmount(14000));
 
