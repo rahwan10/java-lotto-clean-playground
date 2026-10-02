@@ -22,6 +22,11 @@ public class InputView {
         return parseWinningNumbers(SCANNER.nextLine());
     }
 
+    public static int readBonusNumber() {
+        System.out.println();
+        System.out.println("보너스 번호를 입력해 주세요.");
+        return parseNumber(SCANNER.nextLine());
+    }
 
     private static List<Integer> parseWinningNumbers(String input) {
         return Arrays.stream(input.split(WINNING_NUMBERS_DELIMITER))
@@ -33,7 +38,7 @@ public class InputView {
         try {
             return Integer.parseInt(input.trim());
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("구입금액은 숫자만 입력할 수 있습니다.");
+            throw new IllegalArgumentException("숫자만 입력할 수 있습니다.");
         }
     }
 }

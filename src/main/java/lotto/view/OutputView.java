@@ -8,7 +8,7 @@ import java.util.List;
 public class OutputView {
 
     private static final List<Rank> PRINT_ORDER = List.of(
-            Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
+            Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
 
     private OutputView() {
     }
@@ -35,6 +35,10 @@ public class OutputView {
     }
 
     private static void printRankResult(Rank rank, int count) {
+        if (rank == Rank.SECOND) {
+            System.out.println(rank.getMatchCount() + "개 일치, 보너스 볼 일치(" + rank.getPrize() + "원) - " + count + "개");
+            return;
+        }
         System.out.println(rank.getMatchCount() + "개 일치 (" + rank.getPrize() + "원)- " + count + "개");
     }
 
