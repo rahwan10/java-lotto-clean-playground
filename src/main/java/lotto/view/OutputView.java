@@ -51,7 +51,7 @@ public class OutputView {
 
     /** 당첨 등수 하나에 해당하는 상금과 당첨 장수를 출력한다. */
     private void printWinningResult(LottoRank lottoRank, LottoStatistics lottoStatistics) {
-        System.out.println(lottoRank.matchCount() + "개 일치 ("
+        System.out.println(lottoRank.resultDescription() + " ("
                 + lottoRank.prize() + "원)- " + lottoStatistics.winningCount(lottoRank) + "개");
     }
 

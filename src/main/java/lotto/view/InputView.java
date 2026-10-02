@@ -7,6 +7,7 @@ public class InputView {
 
     private static final String PURCHASE_AMOUNT_MESSAGE = "구입금액을 입력해 주세요.";
     private static final String WINNING_NUMBERS_MESSAGE = "지난 주 당첨 번호를 입력해 주세요.";
+    private static final String BONUS_NUMBER_MESSAGE = "보너스 볼을 입력해 주세요.";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -27,6 +28,12 @@ public class InputView {
      */
     public String readWinningNumbers() {
         System.out.println(WINNING_NUMBERS_MESSAGE);
+        return scanner.nextLine();
+    }
+
+    /** 보너스 볼 입력 안내를 출력하고 사용자가 입력한 원본 문자열을 반환한다. */
+    public String readBonusNumber() {
+        System.out.println(BONUS_NUMBER_MESSAGE);
         return scanner.nextLine();
     }
 }

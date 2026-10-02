@@ -3,6 +3,7 @@ package lotto.controller;
 import lotto.domain.LottoPurchaseService;
 import lotto.domain.Lottos;
 import lotto.domain.LottoStatistics;
+import lotto.domain.LottoNumber;
 import lotto.domain.PurchaseAmount;
 import lotto.domain.WinningLotto;
 import lotto.view.InputView;
@@ -64,6 +65,13 @@ public class LottoController {
      */
     private WinningLotto readWinningLotto() {
         String inputWinningNumbers = inputView.readWinningNumbers();
-        return inputParser.parseWinningLotto(inputWinningNumbers);
+        LottoNumber bonusNumber = readBonusNumber();
+        return new WinningLotto(inputParser.parseWinningNumbers(inputWinningNumbers), bonusNumber);
+    }
+
+    /** 보너스 볼을 입력받아 검증된 로또 번호 객체로 변환한다. */
+    private LottoNumber readBonusNumber() {
+        String inputBonusNumber = inputView.readBonusNumber();
+        return inputParser.parseBonusNumber(inputBonusNumber);
     }
 }
