@@ -1,7 +1,10 @@
 package lotto.controller;
 
+import java.util.List;
+import java.util.stream.IntStream;
+import lotto.domain.Lotto;
+import lotto.domain.LottoPurchase;
 import lotto.domain.LottoPurchaseService;
-import lotto.domain.Lottos;
 import lotto.domain.LottoStatistics;
 import lotto.domain.LottoNumber;
 import lotto.domain.PurchaseAmount;
@@ -37,14 +40,16 @@ public class LottoController {
     public void run() {
         // 구매 금액을 입력받아 검증된 구매 금액 객체로 변환
         PurchaseAmount purchaseAmount = readPurchaseAmount();
-        // 구매 금액으로 로또를 발급
-        Lottos lottos = lottoPurchaseService.purchase(purchaseAmount);
-        outputView.printPurchaseResult(lottos);
+        int manualLottoCount = readManualLottoCount();
+        List<Lotto> manualLottos = readManualLottos(manualLottoCount);
+        // 수동 로또와 자동 로또를 합쳐 구매 결과를 생성
+        LottoPurchase lottoPurchase = lottoPurchaseService.purchase(purchaseAmount, manualLottos);
+        outputView.printPurchaseResult(lottoPurchase);
 
         // 당첨 번호를 입력받아 검증된 당첨 로또 객체로 변환
         WinningLotto winningLotto = readWinningLotto();
         // 구매한 로또와 당첨 번호를 비교해 당첨 통계와 수익률을 계산하고 출력
-        LottoStatistics lottoStatistics = lottos.calculateStatistics(winningLotto, purchaseAmount);
+        LottoStatistics lottoStatistics = lottoPurchase.lottos().calculateStatistics(winningLotto, purchaseAmount);
         outputView.printLottoStatistics(lottoStatistics);
     }
 
@@ -56,6 +61,19 @@ public class LottoController {
     private PurchaseAmount readPurchaseAmount() {
         String inputAmount = inputView.readPurchaseAmount();
         return inputParser.parsePurchaseAmount(inputAmount);
+    }
+
+    /** 수동으로 구매할 로또 장수를 입력받아 정수로 변환한다. */
+    private int readManualLottoCount() {
+        String inputManualLottoCount = inputView.readManualLottoCount();
+        return inputParser.parseManualLottoCount(inputManualLottoCount);
+    }
+
+    /** 수동 구매 장수만큼 로또 번호를 입력받아 로또 목록으로 변환한다. */
+    private List<Lotto> readManualLottos(int manualLottoCount) {
+        return IntStream.range(0, manualLottoCount)
+                .mapToObj(count -> inputParser.parseManualLotto(inputView.readManualLottoNumbers()))
+                .toList();
     }
 
     /**

@@ -42,6 +42,17 @@ class InputParserTest {
         assertThat(inputParser.parseBonusNumber("7")).isEqualTo(new LottoNumber(7));
     }
 
+    @Test
+    void 수동_구매_수_문자열을_정수로_변환한다() {
+        assertThat(inputParser.parseManualLottoCount("3")).isEqualTo(3);
+    }
+
+    @Test
+    void 쉼표로_구분한_수동_번호를_로또로_변환한다() {
+        assertThat(inputParser.parseManualLotto("1, 2, 3, 4, 5, 6").numbers())
+                .containsExactlyElementsOf(lotto().numbers());
+    }
+
     private Lotto lotto() {
         return new Lotto(List.of(
                 new LottoNumber(1),

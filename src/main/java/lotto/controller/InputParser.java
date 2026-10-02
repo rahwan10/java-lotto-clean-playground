@@ -30,6 +30,20 @@ public class InputParser {
         return parseLottoNumber(inputBonusNumber);
     }
 
+    /** 수동 구매 수 문자열을 정수로 변환한다. */
+    public int parseManualLottoCount(String inputManualLottoCount) {
+        try {
+            return Integer.parseInt(inputManualLottoCount);
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("수동 구매 수는 숫자여야 합니다.");
+        }
+    }
+
+    /** 쉼표로 구분한 수동 로또 번호 문자열을 검증된 로또 객체로 변환한다. */
+    public Lotto parseManualLotto(String inputManualLottoNumbers) {
+        return new Lotto(parseNumbers(inputManualLottoNumbers));
+    }
+
     /** 쉼표로 구분한 문자열을 각각의 로또 번호 객체로 변환한다. */
     private List<LottoNumber> parseNumbers(String inputWinningNumbers) {
         return COMMA.splitAsStream(inputWinningNumbers)
