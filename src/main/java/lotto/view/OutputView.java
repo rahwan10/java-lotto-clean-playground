@@ -10,31 +10,27 @@ public class OutputView {
     private static final List<Rank> PRINT_ORDER = List.of(
             Rank.FIFTH, Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST);
 
-    private OutputView() {
-    }
-
-
-    public static void printLottos(List<List<Integer>> lottoNumbers) {
+    public void printLottos(List<List<Integer>> lottoNumbers) {
         System.out.println();
         System.out.println(lottoNumbers.size() + "개를 구매했습니다.");
-        lottoNumbers.forEach(OutputView::printLotto);
+        lottoNumbers.forEach(this::printLotto);
     }
 
-    private static void printLotto(List<Integer> numbers) {
+    private void printLotto(List<Integer> numbers) {
         List<Integer> sortedNumbers = numbers.stream()
                 .sorted()
                 .toList();
         System.out.println(sortedNumbers);
     }
 
-    public static void printWinningResult(WinningResult winningResult) {
+    public void printWinningResult(WinningResult winningResult) {
         System.out.println();
         System.out.println("당첨 통계");
         System.out.println("---------");
         PRINT_ORDER.forEach(rank -> printRankResult(rank, winningResult.countOf(rank)));
     }
 
-    private static void printRankResult(Rank rank, int count) {
+    private void printRankResult(Rank rank, int count) {
         if (rank == Rank.SECOND) {
             System.out.println(rank.getMatchCount() + "개 일치, 보너스 볼 일치(" + rank.getPrize() + "원) - " + count + "개");
             return;
@@ -42,7 +38,7 @@ public class OutputView {
         System.out.println(rank.getMatchCount() + "개 일치 (" + rank.getPrize() + "원)- " + count + "개");
     }
 
-    public static void printProfitRate(double profitRate) {
+    public void printProfitRate(double profitRate) {
         double truncatedProfitRate = Math.floor(profitRate * 100) / 100;
         System.out.println("총 수익률은 " + truncatedProfitRate + "입니다.");
     }

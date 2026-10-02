@@ -8,33 +8,30 @@ public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final String WINNING_NUMBERS_DELIMITER = ",";
 
-    private InputView() {
-    }
-
-    public static int readPurchaseAmount() {
+    public int readPurchaseAmount() {
         System.out.println("구입금액을 입력해 주세요.");
         return parseNumber(SCANNER.nextLine());
     }
 
-    public static List<Integer> readWinningNumbers() {
+    public List<Integer> readWinningNumbers() {
         System.out.println();
         System.out.println("지난 주 당첨 번호를 입력해 주세요.");
         return parseWinningNumbers(SCANNER.nextLine());
     }
 
-    public static int readBonusNumber() {
+    public int readBonusNumber() {
         System.out.println();
         System.out.println("보너스 번호를 입력해 주세요.");
         return parseNumber(SCANNER.nextLine());
     }
 
-    private static List<Integer> parseWinningNumbers(String input) {
+    private List<Integer> parseWinningNumbers(String input) {
         return Arrays.stream(input.split(WINNING_NUMBERS_DELIMITER))
-                .map(InputView::parseNumber)
+                .map(this::parseNumber)
                 .toList();
     }
 
-    private static int parseNumber(String input) {
+    private int parseNumber(String input) {
         try {
             return Integer.parseInt(input.trim());
         } catch (NumberFormatException exception) {

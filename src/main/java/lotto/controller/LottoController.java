@@ -12,20 +12,24 @@ import java.util.List;
 
 public class LottoController {
     private final LottoMachine lottoMachine;
+    private final InputView inputView;
+    private final OutputView outputView;
 
-    public LottoController(LottoMachine lottoMachine) {
+    public LottoController(LottoMachine lottoMachine, InputView inputView, OutputView outputView) {
         this.lottoMachine = lottoMachine;
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     public void run() {
-        PurchaseAmount purchaseAmount = new PurchaseAmount(InputView.readPurchaseAmount());
+        PurchaseAmount purchaseAmount = new PurchaseAmount(inputView.readPurchaseAmount());
         Lottos lottos = lottoMachine.sell(purchaseAmount);
-        OutputView.printLottos(lottos.getLottoNumbers());
-        List<Integer> winningNumbers = InputView.readWinningNumbers();
-        int bonusNumber = InputView.readBonusNumber();
+        outputView.printLottos(lottos.getLottoNumbers());
+        List<Integer> winningNumbers = inputView.readWinningNumbers();
+        int bonusNumber = inputView.readBonusNumber();
         WinningLotto winningLotto = new WinningLotto(winningNumbers, bonusNumber);
         WinningResult winningResult = lottos.match(winningLotto);
-        OutputView.printWinningResult(winningResult);
-        OutputView.printProfitRate(winningResult.calculateProfitRate(purchaseAmount));
+        outputView.printWinningResult(winningResult);
+        outputView.printProfitRate(winningResult.calculateProfitRate(purchaseAmount));
     }
 }
